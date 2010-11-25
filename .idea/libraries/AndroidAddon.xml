@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="AndroidAddon">
+    <CLASSES>
+      <root url="jar:///media/Data/Setup/android-sdk-linux_x86/add-ons/addon_google_apis_google_inc_8/libs/maps.jar!/" />
+      <root url="file://$PROJECT_DIR$/src" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
