@@ -3,10 +3,10 @@
     <string name="info">Waiting for GPS...</string>
     <string name="app_name">Speed Warning</string>
     <string name="about_menu_name">About</string>
-    <string name="about_message">Sample application to demostrate GPS in Android.\n\nVisit http://www.krvarma.com for
-        more info.
+    <string name="about_message">created by Suchit Puri
     </string>
     <string name="unit_km">Kilometer</string>
     <string name="unit_miles">Miles</string>
     <string name="setting_unit">Measurement Unit</string>
+    <string name="loading">Loading ...</string>
 </resources>

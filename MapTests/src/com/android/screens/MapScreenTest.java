@@ -1,7 +1,6 @@
 package com.android;
 
 import android.test.ActivityInstrumentationTestCase2;
-import com.androidMaps.screens.MapScreen;
 
 /**
  * This is a simple framework for a test of an Application.  See
@@ -13,10 +12,10 @@ import com.androidMaps.screens.MapScreen;
  * -e class com.android.screens.MapScreenTest \
  * com.android.tests/android.test.InstrumentationTestRunner
  */
-public class MapScreenTest extends ActivityInstrumentationTestCase2<MapScreen> {
+public class MapScreenTest extends ActivityInstrumentationTestCase2<MapScreen_bak> {
 
     public MapScreenTest() {
-        super("com.android", MapScreen.class);
+        super("com.android", MapScreen_bak.class);
     }
 
 }

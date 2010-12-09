@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class AppSettings {
 	private static final String UNIT_STRING = "MeasureUnit";
-	private static final String PREF_NAME = "SpeedDemo_20100707";
+	private static final String PREF_NAME = "AndroidTrafficApp";
 	
 	public static int getMeasureUnit(Context context){
 		return getInt(context,AppSettings.UNIT_STRING);

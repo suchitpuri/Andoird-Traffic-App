@@ -1,31 +1,28 @@
 package com.androidMaps.screens;
 
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.*;
+import android.widget.Toast;
 import com.android.R;
-import com.androidMaps.utilities.DirectionPathOverlay;
-import com.google.android.maps.GeoPoint;
+import com.androidMaps.controller.GPSController;
+import com.androidMaps.interfaces.Constants;
+import com.androidMaps.interfaces.GPSCallback;
+import com.androidMaps.settings.AppSettings;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 
-public class MapScreen extends MapActivity {
-    private GeoPoint geoPoint;
-    private MapController myMC;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+public class MapScreen extends MapActivity implements GPSCallback {
+    private GPSController gpsController = null;
+    private double speed = 0.0;
+    private int measurement_index = Constants.INDEX_KM;
     private MapView mapView;
 
     @Override
@@ -34,46 +31,30 @@ public class MapScreen extends MapActivity {
         setContentView(R.layout.map);
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
-        geoPoint = null;
-        mapView.setSatellite(false);
+        gpsController = new GPSController();
+        gpsController.startListening(getApplicationContext());
+        gpsController.setGPSCallback(this);
+        measurement_index = AppSettings.getMeasureUnit(this);
+        showToast(getString(R.string.info));
 
-        String pairs[] = getDirectionData("ahmedabad", "vadodara");
-        String[] lngLat = pairs[0].split(",");
+    }
 
-        // STARTING POINT
-        GeoPoint startGP = new GeoPoint(
-                (int) (Double.parseDouble(lngLat[1]) * 1E6), (int) (Double
-                        .parseDouble(lngLat[0]) * 1E6));
+    @Override
+    public void onGPSUpdate(Location location) {
+        location.getLatitude();
+        location.getLongitude();
+        speed = location.getSpeed();
+        String speedString = "" + roundDecimal(convertSpeed(speed), 2);
+        String unitString = measurementUnitString(measurement_index);
+        showToast(speedString + " " + unitString);
+    }
 
-        myMC = mapView.getController();
-        geoPoint = startGP;
-        myMC.setCenter(geoPoint);
-        myMC.setZoom(15);
-        mapView.getOverlays().add(new DirectionPathOverlay(startGP, startGP));
-
-        // NAVIGATE THE PATH
-
-        GeoPoint gp1;
-        GeoPoint gp2 = startGP;
-
-        for (int i = 1; i < pairs.length; i++) {
-            lngLat = pairs[i].split(",");
-            gp1 = gp2;
-            // watch out! For GeoPoint, first:latitude, second:longitude
-
-            gp2 = new GeoPoint((int) (Double.parseDouble(lngLat[1]) * 1E6),
-                    (int) (Double.parseDouble(lngLat[0]) * 1E6));
-            mapView.getOverlays().add(new DirectionPathOverlay(gp1, gp2));
-            Log.d("xxx", "pair:" + pairs[i]);
-        }
-
-        // END POINT
-        mapView.getOverlays().add(new DirectionPathOverlay(gp2, gp2));
-
-        mapView.getController().animateTo(startGP);
-        mapView.setBuiltInZoomControls(true);
-        mapView.displayZoomControls(true);
-
+    @Override
+    protected void onDestroy() {
+        gpsController.stopListening();
+        gpsController.setGPSCallback(null);
+        gpsController = null;
+        super.onDestroy();
     }
 
     @Override
@@ -81,54 +62,93 @@ public class MapScreen extends MapActivity {
         return false;
     }
 
-    private String[] getDirectionData(String source, String destination) {
-
-        String urlString = "http://maps.google.com/maps?f=d&hl=en&saddr="
-                + source + "&daddr=" + destination
-                + "&ie=UTF8&0&om=0&output=kml";
-        Document doc = null;
-        HttpURLConnection urlConnection = null;
-        URL url = null;
-        String pathConect = "";
-
-        try {
-
-            url = new URL(urlString.toString());
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            doc = db.parse(urlConnection.getInputStream());
-
-        } catch (SAXException e) {
-            Log.d("error", e.getMessage());
-        } catch (ProtocolException e) {
-            Log.d("error", e.getMessage());
-        } catch (ParserConfigurationException e) {
-            Log.d("error", e.getMessage());
-        } catch (MalformedURLException e) {
-            Log.d("error", e.getMessage());
-        } catch (IOException e) {
-            Log.d("error", e.getMessage());
-        }
-
-        NodeList nl = doc.getElementsByTagName("LineString");
-        for (int s = 0; s < nl.getLength(); s++) {
-            Node rootNode = nl.item(s);
-            NodeList configItems = rootNode.getChildNodes();
-            for (int x = 0; x < configItems.getLength(); x++) {
-                Node lineStringNode = configItems.item(x);
-                NodeList path = lineStringNode.getChildNodes();
-                pathConect = path.item(0).getNodeValue();
-            }
-        }
-        String[] tempContent = pathConect.split(" ");
-        return tempContent;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result = true;
+
+        switch (item.getItemId()) {
+            case R.id.menu_about: {
+                displayAboutDialog();
+
+                break;
+            }
+            case R.id.unit_km: {
+                measurement_index = 0;
+
+                AppSettings.setMeasureUnit(this, 0);
+
+                break;
+            }
+            case R.id.unit_miles: {
+                measurement_index = 1;
+
+                AppSettings.setMeasureUnit(this, 1);
+
+                break;
+            }
+            default: {
+                result = super.onOptionsItemSelected(item);
+
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    private double convertSpeed(double speed) {
+        return ((speed * Constants.HOUR_MULTIPLIER) * Constants.UNIT_MULTIPLIERS[measurement_index]);
+    }
+
+    private String measurementUnitString(int unitIndex) {
+        String string = "";
+
+        switch (unitIndex) {
+            case Constants.INDEX_KM:
+                string = "km/h";
+                break;
+            case Constants.INDEX_MILES:
+                string = "mi/h";
+                break;
+        }
+
+        return string;
+    }
+
+    private double roundDecimal(double value, final int decimalPlace) {
+        BigDecimal bd = new BigDecimal(value);
+
+        bd = bd.setScale(decimalPlace, RoundingMode.HALF_UP);
+        value = bd.doubleValue();
+        return value;
+    }
+
+    private void showToast(String text) {
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    private void displayAboutDialog() {
+        final LayoutInflater inflator = LayoutInflater.from(this);
+        final View settingsview = inflator.inflate(R.layout.about, null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(getString(R.string.app_name));
+        builder.setView(settingsview);
+
+        builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.create().show();
+    }
 }
-
-

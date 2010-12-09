@@ -3,7 +3,7 @@
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
-        <option name="PLATFORM_NAME" value="Android 2.2 Platform" />
+        <option name="PLATFORM_NAME" value="Android 2.2 Google APIs(1)" />
         <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/gen" />
         <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/gen" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/AndroidManifest.xml" />
@@ -34,6 +34,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="Android 2.2 Platform" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Google APIs" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Google APIs(1)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Google APIs(1)" level="application" />
   </component>
 </module>
 

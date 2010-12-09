@@ -35,6 +35,7 @@ public class DirectionPathOverlay extends Overlay {
             paint.setStrokeWidth(2);
             canvas.drawLine((float) point.x, (float) point.y, (float) point2.x,
                     (float) point2.y, paint);
+
         }
         return super.draw(canvas, mapView, shadow, when);
     }
