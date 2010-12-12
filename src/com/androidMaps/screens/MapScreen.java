@@ -12,18 +12,24 @@ import com.androidMaps.controller.GPSController;
 import com.androidMaps.interfaces.Constants;
 import com.androidMaps.interfaces.GPSCallback;
 import com.androidMaps.settings.AppSettings;
+import com.androidMaps.utilities.Speed;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.androidMaps.utilities.PointOverlay;
 
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 public class MapScreen extends MapActivity implements GPSCallback {
     private GPSController gpsController = null;
-    private double speed = 0.0;
+    private double deviceSpeed = 0.0;
     private int measurement_index = Constants.INDEX_KM;
     private MapView mapView;
+    private Location lastLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,13 +47,28 @@ public class MapScreen extends MapActivity implements GPSCallback {
 
     @Override
     public void onGPSUpdate(Location location) {
-        location.getLatitude();
-        location.getLongitude();
-        speed = location.getSpeed();
-        String speedString = "" + roundDecimal(convertSpeed(speed), 2);
+
+
+        this.lastLocation = location;
+        Speed speed=null;
+        if (location.getSpeed() > 40) {
+            speed = Speed.FAST;
+
+        } else if (location.getSpeed() >= 0 && location.getSpeed() < 40) {
+            speed = Speed.SLOW;
+
+        }
+        PointOverlay pointOverlay = new PointOverlay(location, getResources(),speed);
+        List<Overlay> listOfOverlays = mapView.getOverlays();
+        listOfOverlays.add(pointOverlay);
+
+        mapView.invalidate();
+        deviceSpeed = location.getSpeed();
+        String speedString = "" + roundDecimal(convertSpeed(deviceSpeed), 2);
         String unitString = measurementUnitString(measurement_index);
         showToast(speedString + " " + unitString);
     }
+
 
     @Override
     protected void onDestroy() {
@@ -79,6 +100,10 @@ public class MapScreen extends MapActivity implements GPSCallback {
 
                 break;
             }
+            case R.id.show_traffic: {
+                showSimulatedTraffic();
+                break;
+            }
             case R.id.unit_km: {
                 measurement_index = 0;
 
@@ -101,6 +126,21 @@ public class MapScreen extends MapActivity implements GPSCallback {
         }
 
         return result;
+    }
+
+    private void showSimulatedTraffic() {
+
+      for(int i=0;i<20;i+=1)
+      {
+          lastLocation.setLatitude(lastLocation.getLatitude()+i);
+          lastLocation.setLongitude(lastLocation.getLongitude()+i);
+          PointOverlay pointOverlay = new PointOverlay(lastLocation, getResources(),Speed.SLOW);
+          List<Overlay> listOfOverlays = mapView.getOverlays();
+          listOfOverlays.add(pointOverlay);
+          mapView.invalidate();
+      }
+
+        Toast.makeText(this.getApplication(),"simulated 20 points",Toast.LENGTH_LONG).show();
     }
 
     private double convertSpeed(double speed) {

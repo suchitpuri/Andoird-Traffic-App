@@ -18,4 +18,11 @@
 		android:title="@string/about_menu_name"
 		android:icon="@android:drawable/ic_menu_help">
 	</item>
+    <item
+		android:id="@+id/show_traffic"
+		android:titleCondensed="@string/traffic"
+		android:title="@string/show_traffic_info"
+		android:icon="@android:drawable/ic_menu_help">
+	</item>
+
 </menu>

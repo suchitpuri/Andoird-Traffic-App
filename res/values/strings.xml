@@ -9,4 +9,6 @@
     <string name="unit_miles">Miles</string>
     <string name="setting_unit">Measurement Unit</string>
     <string name="loading">Loading ...</string>
+    <string name="traffic">Traffic</string>
+    <string name="show_traffic_info">Get Traffic Info</string>
 </resources>
