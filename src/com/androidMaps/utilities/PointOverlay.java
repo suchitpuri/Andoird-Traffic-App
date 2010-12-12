@@ -18,7 +18,7 @@ public class PointOverlay extends com.google.android.maps.Overlay
 
         public PointOverlay(Location location, Resources resources, Speed speed) {
             this.speed = speed;
-            p= new GeoPoint((int)(location.getAltitude()*1000000),(int)(location.getLongitude()*1000000));
+            p= new GeoPoint((int)(location.getLatitude()*1000000),(int)(location.getLongitude()*1000000));
             this.resources = resources;
         }
 

@@ -32,21 +32,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/androidMaps/screens/MapScreen.java" line="138" class="com.androidMaps.screens.MapScreen" package="com.androidMaps.screens">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -91,10 +76,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MapScreen.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MapScreen.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/androidMaps/screens/MapScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="132" column="22" selection-start="3800" selection-end="3800" vertical-scroll-proportion="0.26086956">
+            <state line="138" column="0" selection-start="4110" selection-end="4110" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#onDestroy#0;class#MapScreen#0" expanded="false" />
@@ -164,10 +149,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PointOverlay.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PointOverlay.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/androidMaps/utilities/PointOverlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="0" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.0">
+            <state line="20" column="56" selection-start="676" selection-end="676" vertical-scroll-proportion="0.5027933">
               <folding />
             </state>
           </provider>
@@ -208,10 +193,10 @@
         <option value="$PROJECT_DIR$/src/com/androidMaps/settings/AppSettings.java" />
         <option value="$PROJECT_DIR$/src/com/androidMaps/utilities/DirectionPathOverlay.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/com/androidMaps/utilities/PointOverlay.java" />
         <option value="$PROJECT_DIR$/res/menu/menu.xml" />
         <option value="$PROJECT_DIR$/src/com/androidMaps/utilities/Speed.java" />
         <option value="$PROJECT_DIR$/src/com/androidMaps/screens/MapScreen.java" />
+        <option value="$PROJECT_DIR$/src/com/androidMaps/utilities/PointOverlay.java" />
       </list>
     </option>
   </component>
@@ -979,13 +964,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/androidMaps/utilities/PointOverlay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///media/Data/Setup/android-sdk-linux_x86/platforms/android-8/android.jar!/android/view/View.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="373" column="16" selection-start="17264" selection-end="17264" vertical-scroll-proportion="-3.4">
@@ -995,11 +973,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/androidMaps/screens/MapScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="22" selection-start="3800" selection-end="3800" vertical-scroll-proportion="0.26086956">
+        <state line="138" column="0" selection-start="4110" selection-end="4110" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#onDestroy#0;class#MapScreen#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/androidMaps/utilities/PointOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="56" selection-start="676" selection-end="676" vertical-scroll-proportion="0.5027933">
+          <folding />
         </state>
       </provider>
     </entry>
