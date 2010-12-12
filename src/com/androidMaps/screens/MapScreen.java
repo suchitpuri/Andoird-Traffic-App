@@ -130,7 +130,7 @@ public class MapScreen extends MapActivity implements GPSCallback {
 
     private void showSimulatedTraffic() {
 
-      for(int i=0;i<20;i+=1)
+      for(int i=0;i<20;i+=.005)
       {
           lastLocation.setLatitude(lastLocation.getLatitude()+i);
           lastLocation.setLongitude(lastLocation.getLongitude()+i);
